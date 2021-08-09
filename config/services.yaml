@@ -47,3 +47,5 @@ services:
                   name: form.type_extension,
                   extended_type: Symfony\Component\Form\Extension\Core\Type\TextareaType,
               }
+
+    Symfony\Component\Asset\Context\RequestStackContext: "@assets.context"
