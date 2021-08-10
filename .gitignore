@@ -17,3 +17,6 @@
 ###< symfony/phpunit-bridge ###
 
 /public/uploads
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
