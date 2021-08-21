@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -73,5 +75,31 @@ class ArticleReferenceAdminController extends BaseController
       return $this->redirectToRoute('admin_article_edit', [
         'id' => $article->getId()
       ]);
+    }
+
+    /**
+     * @Route("/admin/article/references/{id}/download", name="admin_article_download_reference", methods={"GET"})
+     */
+    public function downloadArticleReference(ArticleReference $reference, UploaderHelper $uploaderHelper)
+    {
+      $article = $reference->getArticle();
+      $this->denyAccessUnlessGranted('MANAGE', $article);
+
+      $response = new StreamedResponse(function() use ($reference, $uploaderHelper) {
+        $outputStream = fopen('php://output', 'wb');
+        $fileStream = $uploaderHelper->readStream($reference->getFilePath(), false);
+
+        stream_copy_to_stream($fileStream, $outputStream);
+      });
+
+      $response->headers->set('Content-Type', $reference->getMimeType());
+
+      $disposition = HeaderUtils::makeDisposition(
+        HeaderUtils::DISPOSITION_ATTACHMENT,
+        $reference->getOriginalFilename()
+      );
+      $response->headers->set('Content-Disposition', $disposition);
+
+      return $response;
     }
 }
