@@ -52,14 +52,7 @@ class ArticleReferenceAdminController extends BaseController
       );
 
       if ($violations->count() > 0) {
-        /** @var ConstraintViolation $violation */
-        $violation = $violations[0];
-
-        $this->addFlash('error', $violation->getMessage());
-
-        return $this->redirectToRoute('admin_article_edit', [
-          'id' => $article->getId()
-        ]);
+        return $this->json($violations, 400);
       }
 
       $filename = $uploaderHelper->uploadArticleReference($uploadedFile);
@@ -72,9 +65,30 @@ class ArticleReferenceAdminController extends BaseController
       $entityManager->persist($articleReference);
       $entityManager->flush();
 
-      return $this->redirectToRoute('admin_article_edit', [
-        'id' => $article->getId()
-      ]);
+      return $this->json(
+        $articleReference,
+        201, 
+        [],
+        [
+          'groups' => ['main']
+        ]
+      );
+    }
+
+    /**
+     * @Route("/admin/article/{id}/references", methods="GET", name="admin_article_list_references")
+     * @IsGranted("MANAGE", subject="article")
+     */
+    public function getArticleReferences(Article $article)
+    {
+      return $this->json(
+        $article->getArticleReferences(),
+        200,
+        [],
+        [
+            'groups' => ['main']
+        ]
+      );
     }
 
     /**
