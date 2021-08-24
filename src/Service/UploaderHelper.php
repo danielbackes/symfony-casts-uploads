@@ -104,4 +104,15 @@ class UploaderHelper
 
         return $newFilename;
     }
+
+    public function deleteFile(string $path, bool $isPublic)
+    {
+        $filesystem = $isPublic ? $this->publicFilesystem : $this->privateFilesystem;
+
+        $result = $filesystem->delete($path);
+        
+        if ($result === false) {
+            throw new \Exception(sprintf('Error deleting "%s"', $path));
+        }
+    }
 }
