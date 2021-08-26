@@ -134,7 +134,7 @@ class ArticleReferenceAdminController extends BaseController
 
       $response = new StreamedResponse(function() use ($reference, $uploaderHelper) {
         $outputStream = fopen('php://output', 'wb');
-        $fileStream = $uploaderHelper->readStream($reference->getFilePath(), false);
+        $fileStream = $uploaderHelper->readStream($reference->getFilePath());
 
         stream_copy_to_stream($fileStream, $outputStream);
       });
@@ -161,7 +161,7 @@ class ArticleReferenceAdminController extends BaseController
         $entityManager->remove($reference);
         $entityManager->flush();
 
-        $uploaderHelper->deleteFile($reference->getFilePath(), false);
+        $uploaderHelper->deleteFile($reference->getFilePath());
 
         return new Response(null, 204);
     }

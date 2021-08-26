@@ -1,4 +1,7 @@
 {
+    "aws/aws-sdk-php": {
+        "version": "3.173.19"
+    },
     "behat/transliterator": {
         "version": "v1.2.0"
     },
@@ -128,6 +131,9 @@
     "league/flysystem": {
         "version": "1.1.5"
     },
+    "league/flysystem-aws-s3-v3": {
+        "version": "1.0.29"
+    },
     "league/mime-type-detection": {
         "version": "1.7.0"
     },
@@ -149,6 +155,9 @@
     },
     "monolog/monolog": {
         "version": "1.24.0"
+    },
+    "mtdowling/jmespath.php": {
+        "version": "2.5.0"
     },
     "nexylan/slack": {
         "version": "v2.1.0"
