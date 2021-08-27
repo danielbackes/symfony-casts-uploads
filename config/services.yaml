@@ -24,6 +24,7 @@ services:
             $isDebug: "%kernel.debug%"
             $uploadFilesystem: "@oneup_flysystem.uploads_filesystem_filesystem"
             $uploadedAssetsBaseUrl: "%uploads_base_url%"
+            $s3BucketName: "%env(AWS_S3_BUCKET_NAME)%"
 
     # custom aliases for autowiring
     Nexy\Slack\Client: "@nexy_slack.client"
