@@ -134,6 +134,9 @@
     "league/flysystem-aws-s3-v3": {
         "version": "1.0.29"
     },
+    "league/flysystem-cached-adapter": {
+        "version": "1.1.0"
+    },
     "league/mime-type-detection": {
         "version": "1.7.0"
     },
